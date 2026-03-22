@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบประเมินความเสี่ยงโรคเบาหวาน</title>
+    <style>
+        /* CSS สำหรับจัดรูปแบบ */
+        body {
+            font-family: 'Tahoma', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+        .question-page {
+            display: none; 
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .question-page.active {
+            display: block; 
+        }
+        .question-page h3 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .option-group {
+            margin-bottom: 15px;
+        }
+        .option-group label {
+            display: block;
+            background: #e9ecef;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .option-group label:hover {
+            background: #dcdfe3;
+        }
+        .option-group input[type="radio"]:checked + label {
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+        .option-group input[type="radio"] {
+            display: none;
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        #prevButton {
+            background-color: #6c757d;
+            color: white;
+        }
+        #prevButton:hover {
+            background-color: #5a6268;
+        }
+        #nextButton, #submitButton {
+            background-color: #28a745;
+            color: white;
+        }
+        #nextButton:hover, #submitButton:hover {
+            background-color: #218838;
+        }
+        #result-page {
+            text-align: center;
+        }
+        #result-page h2 {
+            color: #dc3545;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .input-group label {
+            flex: 1;
+        }
+        .input-group input[type="number"] {
+            flex: 2;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #bmiResult, #waistCmResult {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>แบบประเมินความเสี่ยงโรคเบาหวาน</h1>
+    
+    <div id="quiz-area">
+         <div id="q0" class="question-page active" data-score-name="gender">
+            <h3>เพศของคุณคืออะไร?</h3>
+            <div class="option-group">
+                <input type="radio" id="q0m" name="q0" value="M"><label for="q0m">ชาย</label>
+                <input type="radio" id="q0w" name="q0" value="W"><label for="q0w">หญิง</label>
+            </div>
+        </div>
+
+        <div id="q1" class="question-page" data-score-name="age">
+            <h3>อายุของคุณ เท่าไหร่?</h3>
+            <div class="option-group">
+                <input type="radio" id="q1a" name="q1" value="0"><label for="q1a">ต่ำกว่า 35 ปี</label>
+                <input type="radio" id="q1b" name="q1" value="2"><label for="q1b">35–44 ปี</label>
+                <input type="radio" id="q1c" name="q1" value="4"><label for="q1c">45–54 ปี</label>
+                <input type="radio" id="q1d" name="q1" value="6"><label for="q1d">55 ปีขึ้นไป</label>
+            </div>
+        </div>
+
+        <div id="q2" class="question-page" data-score-name="bmi">
+            <h3>ดัชนีมวลกาย (BMI) ของคุณอยู่ในช่วงใด</h3>
+            <p><strong>เลือกจากตัวเลือกด้านล่าง:</strong></p>
+            
+            <div class="option-group" style="margin-top: 20px;">
+                <input type="radio" id="q2a" name="q2" value="0"><label for="q2a">น้อยกว่า 23</label>
+                <input type="radio" id="q2b" name="q2" value="3"><label for="q2b">23–27.4</label>
+                <input type="radio" id="q2c" name="q2" value="5"><label for="q2c">27.5 ขึ้นไป</label>
+            </div>
+
+            <hr style="margin: 20px 0;">
+            <h4>เครื่องมือคำนวณ BMI เสริม (ทางเลือก)</h4>
+            <div class="input-group">
+                <label for="weight">น้ำหนัก (กิโลกรัม):</label>
+                <input type="number" id="weight" min="1" step="0.1">
+            </div>
+            <div class="input-group">
+                <label for="height">ส่วนสูง (เซนติเมตร):</label>
+                <input type="number" id="height" min="1" step="0.1">
+            </div>
+            <button type="button" onclick="calculateBMIAndUpdateSelection()" style="background-color: #ffc107; color: #333; margin-top: 10px;">คำนวณ BMI และเลือกคำตอบ</button>
+            <p style="margin-top: 15px;">**BMI ที่คำนวณได้: <span id="bmiResult">-</span></p>
+        </div>
+
+        <div id="q3" class="question-page" data-score-name="waist">
+            <h3>รอบเอววัดได้เท่าไร? (ซม.)</h3>
+            <p><strong>เลือกจากตัวเลือกที่ตรงกับเพศของคุณ:</strong></p>
+            
+            <div class="option-group" style="margin-top: 20px;">
+                <p id="waistThreshold" style="font-weight: bold;">(โปรดเลือกเพศก่อน)</p>
+                <input type="radio" id="q3a" name="q3" value="0" disabled><label for="q3a" id="q3a-label">...</label>
+                <input type="radio" id="q3b" name="q3" value="4" disabled><label for="q3b" id="q3b-label">...</label>
+            </div>
+
+            <hr style="margin: 20px 0;">
+            <h4>เครื่องมือแปลงหน่วยรอบเอว (นิ้ว → ซม.)</h4>
+            <div class="input-group">
+                <label for="waistInch">รอบเอว (นิ้ว):</label>
+                <input type="number" id="waistInch" min="1" step="0.1">
+            </div>
+            <button type="button" onclick="convertInchToCm()" style="background-color: #ffc107; color: #333; margin-top: 10px;">แปลงเป็น ซม. และเลือกคำตอบ</button>
+            <p style="margin-top: 15px;">**รอบเอว (ซม.) ที่คำนวณได้: <span id="waistCmResult">-</span></p>
+        </div>
+
+        <div id="q4" class="question-page" data-score-name="exercise">
+            <h3>คุณออกกำลังกายสม่ำเสมอไหม (สัปดาห์ละ 150 นาที)?</h3>
+            <div class="option-group">
+                <input type="radio" id="q4a" name="q4" value="0"><label for="q4a">ใช่</label>
+                <input type="radio" id="q4b" name="q4" value="2"><label for="q4b">ไม่</label>
+            </div>
+        </div>
+
+        <div id="q5" class="question-page" data-score-name="family">
+            <h3>ญาติสายตรงเป็นเบาหวานหรือไม่?</h3>
+            <small>*(บิดา มารดา พี่ น้อง)</small>
+            <div class="option-group">
+                <input type="radio" id="q5a" name="q5" value="0"><label for="q5a">ไม่มี</label>
+                <input type="radio" id="q5b" name="q5" value="3"><label for="q5b">มี</label>
+            </div>
+        </div>
+
+        <div id="q6" class="question-page" data-score-name="pressure">
+            <h3>มีความดันโลหิตสูงหรือไม่?</h3>
+            <div class="option-group">
+                <input type="radio" id="q6a" name="q6" value="0"><label for="q6a">ไม่เคย</label>
+                <input type="radio" id="q6b" name="q6" value="2"><label for="q6b">แพทย์เคยบอกว่าเป็น / กินยาความดันอยู่</label>
+            </div>
+        </div>
+
+        <div class="navigation-buttons">
+            <button id="prevButton" type="button" style="visibility: hidden;">ย้อนกลับ</button>
+            <button id="nextButton" type="button">ถัดไป</button>
+            <button id="submitButton" type="button" style="display: none;">บันทึกและดูผลลัพธ์</button>
+        </div>
+    </div>
+    
+    <div id="result-page" class="question-page">
+        <h2>🎉 ผลลัพธ์การประเมินความเสี่ยงโรคเบาหวาน</h2>
+        <p>คะแนนความเสี่ยงรวมของคุณคือ:</p>
+        <div class="score-display" id="finalScore">0 คะแนน</div>
+        <div id="riskLevel"></div>
+        <p id="riskAdvice"></p>
+        </div>
+
+</div>
+
+<script>
+    // JavaScript สำหรับจัดการแบบทดสอบ
+    let userId = "";
+    const questions = document.querySelectorAll('.question-page:not(#result-page)');
+    let currentQuestionIndex = 0;
+    let gender = null; // เก็บค่าเพศ
+
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+    const submitButton = document.getElementById('submitButton');
+    const quizArea = document.getElementById('quiz-area');
+    const resultPage = document.getElementById('result-page');
+
+    // References to Q2 elements
+    const Q2_RADIO_A = document.getElementById('q2a');
+    const Q2_RADIO_B = document.getElementById('q2b');
+    const Q2_RADIO_C = document.getElementById('q2c');
+    
+    // References to Q3 elements
+    const Q3_RADIO_A = document.getElementById('q3a');
+    const Q3_RADIO_B = document.getElementById('q3b');
+    const Q3_LABEL_A = document.getElementById('q3a-label');
+    const Q3_LABEL_B = document.getElementById('q3b-label');
+    const WAIST_THRESHOLD_TEXT = document.getElementById('waistThreshold');
+
+    // ------------------ Q0 (Gender) & Q3 (Waist) Logic ------------------
+
+    function setupQ3Labels(selectedGender) {
+        // Clear previous selection
+        Q3_RADIO_A.checked = false;
+        Q3_RADIO_B.checked = false;
+
+        if (selectedGender === 'M') {
+            WAIST_THRESHOLD_TEXT.textContent = "เกณฑ์สำหรับ **ชาย** (90 ซม.):";
+            Q3_LABEL_A.textContent = `< 90 ซม. (0 คะแนน)`;
+            Q3_LABEL_B.textContent = `≥ 90 ซม. (4 คะแนน)`;
+            Q3_RADIO_A.disabled = false;
+            Q3_RADIO_B.disabled = false;
+        } else if (selectedGender === 'W') {
+            WAIST_THRESHOLD_TEXT.textContent = "เกณฑ์สำหรับ **หญิง** (80 ซม.):";
+            Q3_LABEL_A.textContent = `< 80 ซม. (0 คะแนน)`;
+            Q3_LABEL_B.textContent = `≥ 80 ซม. (4 คะแนน)`;
+            Q3_RADIO_A.disabled = false;
+            Q3_RADIO_B.disabled = false;
+        } else {
+             WAIST_THRESHOLD_TEXT.textContent = "(โปรดเลือกเพศก่อน)";
+             Q3_LABEL_A.textContent = `...`;
+             Q3_LABEL_B.textContent = `...`;
+             Q3_RADIO_A.disabled = true;
+             Q3_RADIO_B.disabled = true;
+        }
+        updateNextButtonState();
+    }
+
+    function checkGender() {
+        const checkedGender = document.querySelector('input[name="q0"]:checked');
+        if (checkedGender) {
+            gender = checkedGender.value;
+            setupQ3Labels(gender); // Update Q3 labels immediately
+            nextButton.disabled = false; 
+        } else {
+            nextButton.disabled = true;
+        }
+    }
+    document.querySelectorAll('input[name="q0"]').forEach(radio => {
+        radio.addEventListener('change', checkGender);
+    });
+
+    // ------------------ Q2 (BMI) Calculation Logic ------------------
+
+    function calculateBMIAndUpdateSelection() {
+        const W = parseFloat(document.getElementById('weight').value);
+        const H = parseFloat(document.getElementById('height').value);
+        
+        if (isNaN(W) || isNaN(H) || H <= 0) {
+            alert("กรุณากรอกน้ำหนักและส่วนสูงให้ถูกต้อง");
+            return;
+        }
+
+        const H_m = H / 100; 
+        const bmi = W / (H_m * H_m); 
+        
+        document.getElementById('bmiResult').textContent = bmi.toFixed(2);
+        
+        // Auto-select the radio button based on calculated BMI
+        Q2_RADIO_A.checked = false;
+        Q2_RADIO_B.checked = false;
+        Q2_RADIO_C.checked = false;
+        
+        if (bmi < 23) {
+            Q2_RADIO_A.checked = true; // 0 คะแนน
+        } else if (bmi >= 23 && bmi <= 27.4) {
+            Q2_RADIO_B.checked = true; // 3 คะแนน
+        } else { // bmi >= 27.5
+            Q2_RADIO_C.checked = true; // 5 คะแนน
+        }
+        
+        updateNextButtonState();
+    }
+    
+    // ------------------ Q3 (Waist) Conversion Logic ------------------
+
+    function convertInchToCm() {
+        const waistInch = parseFloat(document.getElementById('waistInch').value);
+        
+        if (isNaN(waistInch) || waistInch <= 0) {
+            alert("กรุณากรอกรอบเอวเป็นนิ้วให้ถูกต้อง");
+            return;
+        }
+
+        if (gender === null) {
+            alert("กรุณาตอบคำถามเพศก่อน");
+            return;
+        }
+
+        // แปลงนิ้วเป็นเซนติเมตร (1 นิ้ว = 2.54 ซม.)
+        const waistCm = waistInch * 2.54;
+        document.getElementById('waistCmResult').textContent = waistCm.toFixed(2);
+        
+        
+        let threshold = (gender === 'M') ? 90 : 80;
+
+        // Auto-select the radio button based on calculated CM
+        Q3_RADIO_A.checked = false;
+        Q3_RADIO_B.checked = false;
+        
+        if (waistCm < threshold) {
+            Q3_RADIO_A.checked = true; // 0 คะแนน
+        } else {
+            Q3_RADIO_B.checked = true; // 4 คะแนน
+        }
+        
+        updateNextButtonState();
+    }
+    
+    // ------------------ General Quiz Logic ------------------
+
+    function showQuestion(index) {
+        // ซ่อนทุกหน้า
+        questions.forEach((q, i) => {
+            q.classList.remove('active');
+        });
+
+        // แสดงหน้าที่ต้องการ
+        questions[index].classList.add('active');
+        currentQuestionIndex = index;
+
+        // จัดการปุ่ม Prev
+        prevButton.style.visibility = index === 0 ? 'hidden' : 'visible';
+
+        // จัดการปุ่ม Next/Submit
+        if (index === questions.length - 1) {
+            nextButton.style.display = 'none';
+            submitButton.style.display = 'block';
+        } else {
+            nextButton.style.display = 'block';
+            submitButton.style.display = 'none';
+        }
+
+        // ตรวจสอบสถานะปุ่ม Next
+        updateNextButtonState();
+    }
+
+    function updateNextButtonState() {
+        const currentQ = questions[currentQuestionIndex];
+        const radioChecked = currentQ.querySelector('input[type="radio"]:checked');
+        
+        if (currentQuestionIndex < questions.length - 1) {
+             nextButton.disabled = !radioChecked;
+        } else if (currentQuestionIndex === questions.length - 1) {
+             submitButton.disabled = !radioChecked;
+        }
+    }
+
+    function calculateScore() {
+        let totalScore = 0;
+        
+        // Q1 ถึง Q6 (Q0 คือเพศ ไม่นับคะแนน)
+        for (let i = 1; i <= 6; i++) { 
+            const q = questions[i]; // Get Q1 to Q6 div
+            const checkedOption = q.querySelector(`input[name="q${i}"]:checked`);
+            if (checkedOption) {
+                const score = parseInt(checkedOption.value);
+                totalScore += score;
+            }
+        }
+        
+        return totalScore;
+    }
+
+    function showResult() {
+        const finalScore = calculateScore();
+        
+        let riskLevel = "";
+        let advice = "";
+
+        // การประเมินผลลัพธ์
+        if (finalScore >= 0 && finalScore <= 6) {
+            riskLevel = "ความเสี่ยงต่ำ";
+            advice = "คุณมีความเสี่ยงต่ำ แต่ควรดูแลเรื่องอาหารและออกกำลังกายเพื่อป้องกันไว้ก่อนครับ";
+        } else if (finalScore >= 7 && finalScore <= 11) {
+            riskLevel = "ความเสี่ยงปานกลาง";
+            advice = "ควรเริ่มปรับพฤติกรรม เช่น ลดหวาน ลดน้ำหนัก เพิ่มการออกกำลังกาย และตรวจน้ำตาลปีละครั้งครับ";
+        } else if (finalScore >= 12) {
+            riskLevel = "ความเสี่ยงสูง";
+            advice = "คุณมีความเสี่ยงสูงต่อการเป็นเบาหวาน แนะนำตรวจเลือดและปรึกษาเจ้าหน้าที่สาธารณสุข/แพทย์ครับ";
+        }
+
+        // 🔥 ส่งไป GAS
+        fetch("https://script.google.com/macros/s/AKfycbxtMBEhQg4VvqCVJJOLQuZlgxBVLRtDS_wSnQjK_78bw2lmOiavpT5-VqiP7XBscec_/exec", {
+            method: "POST",
+            mode: "no-cors",
+            body: JSON.stringify({
+                action: "risk",
+                userId: userId,
+                score: finalScore,
+                level: riskLevel,
+                advice: advice
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        document.getElementById('finalScore').textContent = `${finalScore} คะแนน`;
+        document.getElementById('riskLevel').innerHTML = `<h3>${riskLevel}</h3>`;
+        document.getElementById('riskAdvice').textContent = advice;
+
+        quizArea.style.display = 'none';
+        resultPage.classList.add('active');
+    }
+
+    async function initLIFF() {
+        await liff.init({ liffId: "YOUR_LIFF_ID" });
+
+        if (liff.isLoggedIn()) {
+            const profile = await liff.getProfile();
+            userId = profile.userId;
+            console.log("userId:", userId);
+        }
+    }
+
+    initLIFF();
+
+    // Event Listeners สำหรับคำถามทั่วไป
+    questions.forEach((q) => {
+        q.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', updateNextButtonState);
+        });
+    });
+
+    nextButton.addEventListener('click', () => {
+        if (currentQuestionIndex < questions.length - 1 && !nextButton.disabled) {
+            showQuestion(currentQuestionIndex + 1);
+        }
+    });
+
+    prevButton.addEventListener('click', () => {
+        if (currentQuestionIndex > 0) {
+            showQuestion(currentQuestionIndex - 1);
+        }
+    });
+
+    submitButton.addEventListener('click', () => {
+        if (!submitButton.disabled) {
+             showResult();
+        }
+    });
+
+    // เริ่มต้นแสดงคำถามแรก (Q0: เพศ)
+    showQuestion(0);
+    updateNextButtonState(); 
+
+</script>
+
+</body>
+</html>
