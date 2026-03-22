@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,122 +9,239 @@
     <style>
         /* CSS สำหรับจัดรูปแบบ */
         body {
-            font-family: 'Tahoma', sans-serif;
+            font-family: 'Prompt', sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f4f7f6;
+            background: #f3f8f4;
             color: #333;
+            
         }
+
+        button, input, select, textarea {
+            font-family: 'Prompt', sans-serif;
+        }
+        
         .container {
             max-width: 600px;
             margin: 0 auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 16px; /* 🔥 เพิ่ม */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08); /* 🔥 นุ่มขึ้น */
         }
+
         h1 {
             text-align: center;
             color: #007bff;
             margin-bottom: 30px;
         }
+
+        h3 {
+            font-size: 18px;
+        }
+
         .question-page {
             display: none; 
             animation: fadeIn 0.5s;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         .question-page.active {
             display: block; 
         }
+
         .question-page h3 {
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
+
         .option-group {
             margin-bottom: 15px;
         }
+
         .option-group label {
             display: block;
             background: #e9ecef;
             padding: 12px;
-            margin: 8px 0;
-            border-radius: 5px;
+            margin: 10px 0;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.2s;
         }
+
         .option-group label:hover {
             background: #dcdfe3;
         }
+
         .option-group input[type="radio"]:checked + label {
-            background: #007bff;
+            background: linear-gradient(135deg, #007bff, #339cff);
+            transform: scale(1.02);
             color: white;
             font-weight: bold;
         }
+
         .option-group input[type="radio"] {
             display: none;
         }
+
         .navigation-buttons {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-top: 30px;
         }
+
         button {
             padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            width: auto;
         }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
         #prevButton {
-            background-color: #6c757d;
-            color: white;
+            background-color: #e0e0e0;
+            color: #333;
+            opacity: 0.8;
         }
+
         #prevButton:hover {
-            background-color: #5a6268;
+            background-color: #d5d5d5;
         }
+
         #nextButton, #submitButton {
-            background-color: #28a745;
-            color: white;
+            background: linear-gradient(135deg, #28a745, #34d058);
         }
+
         #nextButton:hover, #submitButton:hover {
             background-color: #218838;
         }
+
+        .navigation-buttons button {
+            min-width: 100px;
+        }
+
         #result-page {
             text-align: center;
         }
+
         #result-page h2 {
             color: #dc3545;
         }
+
         .input-group {
             margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
+
         .input-group label {
             flex: 1;
         }
+
         .input-group input[type="number"] {
             flex: 2;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+
         #bmiResult, #waistCmResult {
             font-weight: bold;
             color: #007bff;
         }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box; /* 🔥 ตัวนี้สำคัญ */
+        }
+
+        #start-page input {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .app-header {
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        #progress {
+            height: 100%;
+            width: 0%;
+            background: #28a745;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .score-display {
+            font-size: 36px;
+            font-weight: bold;
+            color: #28a745;
+            margin: 15px 0;
+        }
+
+        #restartButton {
+            width: 100%;
+            margin-top: 15px;
+            background: #6c757d;
+            color: white;
+            border-radius: 12px;
+        }
+
+        .disclaimer {
+            font-size: 13px;
+            color: #777;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
     </style>
 </head>
 <body>
 
+<div class="app-header">
+    🩺 ประเมินความเสี่ยงเบาหวาน
+</div>
+
+<div class="progress-bar">
+    <div id="progress"></div>
+</div>
+
 <div class="container">
-    <h1>แบบประเมินความเสี่ยงโรคเบาหวาน</h1>
 
     <div id="start-page" class="question-page active">
         <h3>กรอกชื่อผู้ประเมิน</h3>
@@ -139,7 +257,7 @@
 
     <div id="quiz-area" style="display:none;">
          <div id="q0" class="question-page active" data-score-name="gender">
-            <h3>เพศของคุณคืออะไร?</h3>
+            <h3>เพศของคุณ</h3>
             <div class="option-group">
                 <input type="radio" id="q0m" name="q0" value="M"><label for="q0m">ชาย</label>
                 <input type="radio" id="q0w" name="q0" value="W"><label for="q0w">หญิง</label>
@@ -226,7 +344,7 @@
         </div>
 
         <div class="navigation-buttons">
-            <button id="prevButton" type="button" style="visibility: hidden;">ย้อนกลับ</button>
+            <button id="prevButton" type="button">ย้อนกลับ</button>
             <button id="nextButton" type="button">ถัดไป</button>
             <button id="submitButton" type="button" style="display: none;">บันทึกและดูผลลัพธ์</button>
         </div>
@@ -234,13 +352,28 @@
     
     <div id="result-page" class="question-page">
         <h2>🎉 ผลลัพธ์การประเมินความเสี่ยงโรคเบาหวาน</h2>
-        <p>คะแนนความเสี่ยงรวมของคุณคือ:</p>
+        <p>คะแนนความเสี่ยงของคุณคือ</p>
         <div class="score-display" id="finalScore">0 คะแนน</div>
         <div id="riskLevel"></div>
         <p id="riskAdvice"></p>
-        </div>
+        <p class="disclaimer">
+        *ผลการประเมินนี้เป็นเพียงการคัดกรองเบื้องต้น ไม่ใช่การวินิจฉัยโรค  
+        ควรปรึกษาแพทย์หรือบุคลากรสาธารณสุขเพื่อการประเมินเพิ่มเติม
+        </p>
 
+        <button id="restartButton" onclick="restartQuiz()">
+            🔁 เริ่มประเมินใหม่
+        </button>
+    </div>
+        
 </div>
+
+    <div id="customAlert" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:999;">
+        <div style="background:#fff; padding:25px; border-radius:12px; text-align:center; width:80%; max-width:300px; animation: fadeIn 0.3s ease;">
+            <p id="alertMessage" style="margin-bottom:20px;">ข้อความ</p>
+            <button onclick="closeAlert()" style="background:#28a745; color:white; padding:10px 20px; border:none; border-radius:8px;">ตกลง</button>
+        </div>
+    </div>
 
 <script>
     // JavaScript สำหรับจัดการแบบทดสอบ
@@ -276,14 +409,14 @@
 
         if (selectedGender === 'M') {
             WAIST_THRESHOLD_TEXT.textContent = "เกณฑ์สำหรับ **ชาย** (90 ซม.):";
-            Q3_LABEL_A.textContent = `< 90 ซม. (0 คะแนน)`;
-            Q3_LABEL_B.textContent = `≥ 90 ซม. (4 คะแนน)`;
+            Q3_LABEL_A.textContent = `< 90 ซม.`;
+            Q3_LABEL_B.textContent = `≥ 90 ซม.`;
             Q3_RADIO_A.disabled = false;
             Q3_RADIO_B.disabled = false;
         } else if (selectedGender === 'W') {
             WAIST_THRESHOLD_TEXT.textContent = "เกณฑ์สำหรับ **หญิง** (80 ซม.):";
-            Q3_LABEL_A.textContent = `< 80 ซม. (0 คะแนน)`;
-            Q3_LABEL_B.textContent = `≥ 80 ซม. (4 คะแนน)`;
+            Q3_LABEL_A.textContent = `< 80 ซม.`;
+            Q3_LABEL_B.textContent = `≥ 80 ซม.`;
             Q3_RADIO_A.disabled = false;
             Q3_RADIO_B.disabled = false;
         } else {
@@ -317,7 +450,7 @@
         const H = parseFloat(document.getElementById('height').value);
         
         if (isNaN(W) || isNaN(H) || H <= 0) {
-            alert("กรุณากรอกน้ำหนักและส่วนสูงให้ถูกต้อง");
+            showAlert("กรุณากรอกน้ำหนักและส่วนสูงให้ถูกต้อง");
             return;
         }
 
@@ -348,12 +481,12 @@
         const waistInch = parseFloat(document.getElementById('waistInch').value);
         
         if (isNaN(waistInch) || waistInch <= 0) {
-            alert("กรุณากรอกรอบเอวเป็นนิ้วให้ถูกต้อง");
+            showAlert("กรุณากรอกรอบเอวเป็นนิ้วให้ถูกต้อง");
             return;
         }
 
         if (gender === null) {
-            alert("กรุณาตอบคำถามเพศก่อน");
+            showAlert("กรุณาตอบคำถามเพศก่อน");
             return;
         }
 
@@ -383,7 +516,7 @@
         const name = document.getElementById("userName").value.trim();
 
         if (!name) {
-            alert("กรุณากรอกชื่อก่อนเริ่ม");
+            showAlert("กรุณากรอกชื่อก่อนเริ่ม");
             return;
         }
 
@@ -398,6 +531,10 @@
     }
 
     function showQuestion(index) {
+
+        const progress = ((index + 1) / questions.length) * 100;
+        document.getElementById("progress").style.width = progress + "%";
+
         // ซ่อนทุกหน้า
         questions.forEach((q, i) => {
             q.classList.remove('active');
@@ -408,7 +545,7 @@
         currentQuestionIndex = index;
 
         // จัดการปุ่ม Prev
-        prevButton.style.visibility = index === 0 ? 'hidden' : 'visible';
+        prevButton.style.display = 'inline-block';
 
         // จัดการปุ่ม Next/Submit
         if (index === questions.length - 1) {
@@ -452,7 +589,7 @@
 
     function showResult() {
         const finalScore = calculateScore();
-        const name = document.getElementById("userName").value.trim();
+        const name = document.getElementById("userName").value;
         
         let riskLevel = "";
         let advice = "";
@@ -460,13 +597,13 @@
         // การประเมินผลลัพธ์
         if (finalScore >= 0 && finalScore <= 6) {
             riskLevel = "ความเสี่ยงต่ำ";
-            advice = "คุณมีความเสี่ยงต่ำ แต่ควรดูแลเรื่องอาหารและออกกำลังกายเพื่อป้องกันไว้ก่อนครับ";
+            advice = "คุณมีความเสี่ยงต่ำ แต่ควรดูแลเรื่องอาหารและออกกำลังกายเพื่อป้องกันไว้ก่อนนะครับ";
         } else if (finalScore >= 7 && finalScore <= 11) {
             riskLevel = "ความเสี่ยงปานกลาง";
-            advice = "ควรเริ่มปรับพฤติกรรม เช่น ลดหวาน ลดน้ำหนัก เพิ่มการออกกำลังกาย และตรวจน้ำตาลปีละครั้งครับ";
+            advice = "ควรเริ่มปรับพฤติกรรมนะครับ เช่น ลดหวาน ลดน้ำหนัก เพิ่มการออกกำลังกาย และตรวจน้ำตาลปีละครั้งครับ";
         } else if (finalScore >= 12) {
             riskLevel = "ความเสี่ยงสูง";
-            advice = "คุณมีความเสี่ยงสูงต่อการเป็นเบาหวาน แนะนำตรวจเลือดและปรึกษาเจ้าหน้าที่สาธารณสุข/แพทย์ครับ";
+            advice = "คุณมีความเสี่ยงสูงต่อการเป็นเบาหวานนะ แนะนำตรวจเลือดและปรึกษาเจ้าหน้าที่สาธารณสุข หรือแพทย์นะครับ";
         }
 
         // 🔥 ส่งไป GAS
@@ -486,12 +623,48 @@
             }
         });
 
-        document.getElementById('finalScore').textContent = `${finalScore} คะแนน`;
-        document.getElementById('riskLevel').innerHTML = `<h3>${riskLevel}</h3>`;
-        document.getElementById('riskAdvice').textContent = advice;
+        document.getElementById("finalScore").innerText = finalScore + " คะแนน";
+
+        document.getElementById("riskLevel").innerHTML = `
+            <h3>${riskLevel}</h3>
+            <p>ผู้ประเมิน: ${name}</p>
+        `;
+
+        document.getElementById("riskAdvice").innerText = advice;
 
         quizArea.style.display = 'none';
         resultPage.classList.add('active');
+    }
+
+    function restartQuiz() {
+        // รีเซ็ตคำตอบทั้งหมด
+        document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+
+        // รีเซ็ต index
+        currentQuestionIndex = 0;
+
+        // ซ่อน result
+        document.getElementById("result-page").classList.remove("active");
+
+        // กลับหน้า start
+        document.getElementById("start-page").style.display = "block";
+        document.getElementById("quiz-area").style.display = "none";
+
+        // รีเซ็ต progress bar
+        document.getElementById("progress").style.width = "0%";
+        document.querySelector(".progress-bar").style.display = "none";
+
+        // ล้างชื่อ (optional)
+        document.getElementById("userName").value = "";
+    }
+
+    function showAlert(message) {
+        document.getElementById("alertMessage").innerText = message;
+        document.getElementById("customAlert").style.display = "flex";
+    }
+
+    function closeAlert() {
+        document.getElementById("customAlert").style.display = "none";
     }
 
     async function initLIFF() {
@@ -520,7 +693,14 @@
     });
 
     prevButton.addEventListener('click', () => {
-        if (currentQuestionIndex > 0) {
+        if (currentQuestionIndex === 0) {
+            // 🔥 กลับไปหน้า start
+            document.getElementById("quiz-area").style.display = "none";
+            document.getElementById("start-page").style.display = "block";
+            document.getElementById("progress").style.width = "0%";
+        }
+        
+        else {
             showQuestion(currentQuestionIndex - 1);
         }
     });
