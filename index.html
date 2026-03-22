@@ -229,6 +229,13 @@
             line-height: 1.5;
         }
 
+        .start-btn {
+            margin-top: 20px;
+            width: 100%;
+            background: linear-gradient(135deg, #28a745, #34d058);
+            color: white;
+        }
+
     </style>
 </head>
 <body>
@@ -246,18 +253,16 @@
     <div id="start-page" class="question-page active">
         <h3>กรอกชื่อผู้ประเมิน</h3>
 
-        <input type="text" id="userName" placeholder="เช่น สมชาย ใจดี"
-            style="width:100%; padding:12px; border-radius:8px; border:1px solid #ccc; margin-top:10px;">
+        <input type="text" id="userName" placeholder="เช่น สมชาย ใจดี">
 
-        <button onclick="startQuiz()" 
-            style="margin-top:20px; width:100%; background:#28a745; color:white;">
+        <button onclick="startQuiz()" class="start-btn">
             เริ่มทำแบบประเมิน
         </button>
     </div>
 
     <div id="quiz-area" style="display:none;">
          <div id="q0" class="question-page active" data-score-name="gender">
-            <h3>เพศของคุณ</h3>
+            <h3>ระบุเพศของคุณ</h3>
             <div class="option-group">
                 <input type="radio" id="q0m" name="q0" value="M"><label for="q0m">ชาย</label>
                 <input type="radio" id="q0w" name="q0" value="W"><label for="q0w">หญิง</label>
@@ -265,7 +270,7 @@
         </div>
 
         <div id="q1" class="question-page" data-score-name="age">
-            <h3>อายุของคุณ เท่าไหร่?</h3>
+            <h3>คุณอายุเท่าไร ?</h3>
             <div class="option-group">
                 <input type="radio" id="q1a" name="q1" value="0"><label for="q1a">ต่ำกว่า 35 ปี</label>
                 <input type="radio" id="q1b" name="q1" value="2"><label for="q1b">35–44 ปี</label>
@@ -275,8 +280,7 @@
         </div>
 
         <div id="q2" class="question-page" data-score-name="bmi">
-            <h3>ดัชนีมวลกาย (BMI) ของคุณอยู่ในช่วงใด</h3>
-            <p><strong>เลือกจากตัวเลือกด้านล่าง:</strong></p>
+            <h3>ดัชนีมวลกาย (BMI) ของคุณอยู่ในช่วงใด ?</h3>
             
             <div class="option-group" style="margin-top: 20px;">
                 <input type="radio" id="q2a" name="q2" value="0"><label for="q2a">น้อยกว่า 23</label>
@@ -285,7 +289,7 @@
             </div>
 
             <hr style="margin: 20px 0;">
-            <h4>เครื่องมือคำนวณ BMI เสริม (ทางเลือก)</h4>
+            <h4>เครื่องมือคำนวณ BMI เสริม</h4>
             <div class="input-group">
                 <label for="weight">น้ำหนัก (กิโลกรัม):</label>
                 <input type="number" id="weight" min="1" step="0.1">
@@ -299,11 +303,9 @@
         </div>
 
         <div id="q3" class="question-page" data-score-name="waist">
-            <h3>รอบเอววัดได้เท่าไร? (ซม.)</h3>
-            <p><strong>เลือกจากตัวเลือกที่ตรงกับเพศของคุณ:</strong></p>
+            <h3>รอบเอววัดได้เท่าไร ? (ซม.)</h3>
             
             <div class="option-group" style="margin-top: 20px;">
-                <p id="waistThreshold" style="font-weight: bold;">(โปรดเลือกเพศก่อน)</p>
                 <input type="radio" id="q3a" name="q3" value="0" disabled><label for="q3a" id="q3a-label">...</label>
                 <input type="radio" id="q3b" name="q3" value="4" disabled><label for="q3b" id="q3b-label">...</label>
             </div>
@@ -319,7 +321,7 @@
         </div>
 
         <div id="q4" class="question-page" data-score-name="exercise">
-            <h3>คุณออกกำลังกายสม่ำเสมอไหม (สัปดาห์ละ 150 นาที)?</h3>
+            <h3>คุณออกกำลังกายสม่ำเสมอไหม ? (สัปดาห์ละ 150 นาที)</h3>
             <div class="option-group">
                 <input type="radio" id="q4a" name="q4" value="0"><label for="q4a">ใช่</label>
                 <input type="radio" id="q4b" name="q4" value="2"><label for="q4b">ไม่</label>
@@ -327,7 +329,7 @@
         </div>
 
         <div id="q5" class="question-page" data-score-name="family">
-            <h3>ญาติสายตรงเป็นเบาหวานหรือไม่?</h3>
+            <h3>ญาติสายตรงเป็นเบาหวานหรือไม่ ?</h3>
             <small>*(บิดา มารดา พี่ น้อง)</small>
             <div class="option-group">
                 <input type="radio" id="q5a" name="q5" value="0"><label for="q5a">ไม่มี</label>
@@ -336,7 +338,7 @@
         </div>
 
         <div id="q6" class="question-page" data-score-name="pressure">
-            <h3>มีความดันโลหิตสูงหรือไม่?</h3>
+            <h3>มีความดันโลหิตสูงหรือไม่ ?</h3>
             <div class="option-group">
                 <input type="radio" id="q6a" name="q6" value="0"><label for="q6a">ไม่เคย</label>
                 <input type="radio" id="q6b" name="q6" value="2"><label for="q6b">แพทย์เคยบอกว่าเป็น / กินยาความดันอยู่</label>
@@ -398,7 +400,6 @@
     const Q3_RADIO_B = document.getElementById('q3b');
     const Q3_LABEL_A = document.getElementById('q3a-label');
     const Q3_LABEL_B = document.getElementById('q3b-label');
-    const WAIST_THRESHOLD_TEXT = document.getElementById('waistThreshold');
 
     // ------------------ Q0 (Gender) & Q3 (Waist) Logic ------------------
 
@@ -408,19 +409,16 @@
         Q3_RADIO_B.checked = false;
 
         if (selectedGender === 'M') {
-            WAIST_THRESHOLD_TEXT.textContent = "เกณฑ์สำหรับ **ชาย** (90 ซม.):";
             Q3_LABEL_A.textContent = `< 90 ซม.`;
             Q3_LABEL_B.textContent = `≥ 90 ซม.`;
             Q3_RADIO_A.disabled = false;
             Q3_RADIO_B.disabled = false;
         } else if (selectedGender === 'W') {
-            WAIST_THRESHOLD_TEXT.textContent = "เกณฑ์สำหรับ **หญิง** (80 ซม.):";
             Q3_LABEL_A.textContent = `< 80 ซม.`;
             Q3_LABEL_B.textContent = `≥ 80 ซม.`;
             Q3_RADIO_A.disabled = false;
             Q3_RADIO_B.disabled = false;
         } else {
-             WAIST_THRESHOLD_TEXT.textContent = "(โปรดเลือกเพศก่อน)";
              Q3_LABEL_A.textContent = `...`;
              Q3_LABEL_B.textContent = `...`;
              Q3_RADIO_A.disabled = true;
@@ -627,7 +625,7 @@
 
         document.getElementById("riskLevel").innerHTML = `
             <h3>${riskLevel}</h3>
-            <p>ผู้ประเมิน: ${name}</p>
+            <p>ผู้ประเมิน : ${name}</p>
         `;
 
         document.getElementById("riskAdvice").innerText = advice;
