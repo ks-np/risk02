@@ -124,6 +124,12 @@
 
 <div class="container">
     <h1>แบบประเมินความเสี่ยงโรคเบาหวาน</h1>
+
+    <div id="user-info" style="margin-bottom:20px;">
+        <h3>กรอกชื่อผู้ประเมิน</h3>
+        <input type="text" id="userName" placeholder="เช่น สมชาย ใจดี" 
+            style="width:100%; padding:10px; border-radius:5px; border:1px solid #ccc;">
+    </div>
     
     <div id="quiz-area">
          <div id="q0" class="question-page active" data-score-name="gender">
@@ -389,6 +395,14 @@
             submitButton.style.display = 'none';
         }
 
+        if (currentQuestionIndex === 0) {
+            const name = document.getElementById("userName").value.trim();
+            if (!name) {
+                alert("กรุณากรอกชื่อก่อนเริ่มแบบประเมิน");
+                return;
+            }
+        }
+
         // ตรวจสอบสถานะปุ่ม Next
         updateNextButtonState();
     }
@@ -422,6 +436,7 @@
 
     function showResult() {
         const finalScore = calculateScore();
+        const name = document.getElementById("userName").value.trim();
         
         let riskLevel = "";
         let advice = "";
@@ -445,6 +460,7 @@
             body: JSON.stringify({
                 action: "risk",
                 userId: userId,
+                name: name,
                 score: finalScore,
                 level: riskLevel,
                 advice: advice
